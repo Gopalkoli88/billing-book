@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Print Image with Data</title>
+    <link href='https://fonts.googleapis.com/css?family=Libre Barcode 128 Text' rel='stylesheet'>
+    <style>
+        body {
+            /* background: linear-gradient(45deg, #FC466B, #3F5EFB); */
+            background-image: url(./img_lights.jpg);
+            background-size: cover;
+
+            /* opacity: 0.2; */
+        }
+
+        .company-logo {
+            overflow: hidden;
+            position: absolute;
+            top: 17%;
+            /* Adjust the position relative to the container */
+            left: 10%;
+            height: auto;
+            width: auto;
+            /* object-fit: contain; */
+            /* Ensures the logo maintains its aspect ratio */
+            z-index: 50;
+            /* Ensure the logo stays above other elements */
+            aspect-ratio: 3/2;
+            object-fit: contain;
+            /* mix-blend-mode: color-burn; */
+        }
+
+
+        /* Styling for the image container */
+        .image-container {
+            position: relative;
+            width: 19.5cm;
+            height: 8.4cm;
+            overflow: hidden;
+        }
+
+        /* Styling for the image */
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Base styling for text containers */
+        .text-container {
+            position: absolute;
+            background-color: rgb(255, 255, 255);
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            max-width: 80%;
+            word-wrap: break-word;
+            white-space: pre-line;
+        }
+
+        /* Example of positioning for individual data containers */
+        .company-name {
+            padding: 0;
+            top: 21%;
+            left: 14%;
+            font-size: 34px;
+            display: none;
+        }
+
+        .shipper-name {
+            font-size: 16px;
+            padding: 0;
+            padding-top: 5px;
+            top: 49%;
+            left: 1%;
+        }
+
+        .shipper-address {
+            padding: 0;
+            padding-bottom: 3px;
+            font-size: 16px;
+            top: 56%;
+            left: 1%;
+        }
+
+        .shipper-tel {
+            padding: 0;
+            font-size: 14px;
+            top: 62%;
+            left: 1%;
+        }
+
+        .receiver-name {
+            font-size: 16px;
+            padding: 0;
+            padding-top: 5px;
+            top: 49%;
+            left: 37.5%;
+        }
+
+        .receiver-address {
+            padding: 0;
+            padding-bottom: 3px;
+            font-size: 16px;
+            top: 56%;
+            left: 37.5%;
+        }
+
+        .receiver-tel {
+            padding: 0;
+            font-size: 14px;
+            top: 62%;
+            left: 37.5%;
+        }
+
+        .chargeable-weight {
+            padding: 0;
+            padding-top: 7px;
+            top: 49%;
+            left: 91%;
+        }
+
+        .amount {
+            padding: 0;
+            top: 80%;
+            left: 90%;
+        }
+
+        .amount-words {
+            font-size: 22px;
+            padding: 0;
+            top: 90%;
+            left: 82%;
+        }
+
+        .date {
+            font-size: 22px;
+            padding: 0;
+            top: 81%;
+            left: 37.5%;
+        }
+
+        /* New styling for AW No */
+        .aw-no {
+            padding: 0px;
+            top: 21%;
+            left: 63.5%;
+            font-family: 'Libre Barcode 128 Text';
+            /* Ensure font is loaded */
+            font-size: 40px;
+            /* Adjust size to fit within your design */
+            white-space: nowrap;
+            letter-spacing: 3px;
+            /* Prevent wrapping of the barcode text */
+        }
+
+        /* Print-only styles */
+        @media print {
+            @page {
+
+                margin: 0;
+            }
+
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            .image-container {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: auto;
+            }
+
+            .text-container {
+                position: absolute;
+            }
+
+            .input-container,
+            .print-button {
+                display: none;
+
+
+            }
+        }
+
+        /* Hide print button in print preview */
+        @media screen {
+            .print-button {
+                margin-top: 20px;
+                background-color: #04AA6D;
+                /* Green */
+                border: none;
+                color: white;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 20px;
+                border-radius: 5px;
+                margin-bottom: 20px;
+            }
+        }
+
+        @media screen {
+            .print-button:hover {
+                background-color: black;
+            }
+        }
+
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+            }
+        }
+
+        /* Styling for the input box container */
+        .input-container {
+            border-radius: 6px;
+            padding: 9px;
+            background-color: #04AA6D;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 7px;
+            text-align: left;
+        }
+
+        /* Styling for individual input boxes */
+        .input-container input,
+        .input-container textarea,
+        .input-container select {
+
+            font-size: 15px;
+            width: 10%;
+            /* Adjust width as per your requirement */
+            margin: 5px 2px;
+            box-sizing: border-box;
+            border-radius: 2px;
+        }
+
+        #amountInWords {
+            display: none;
+            /* Completely hides the element */
+        }
+
+        /* Styling for the company logo */
+    </style>
+</head>
+
+<body>
+    <!-- Image container -->
+
+
+    <!-- Form to enter data -->
+    <div class="input-container">
+
+        <select id="companyName" onchange="updateCompanyLogo()">
+            <option value="">Select Company</option>
+            <option value="EKART">EKART</option>
+            <option value="ECOM">ECOM</option>
+            <option value="MAHAVIR">MAHAVIR</option>
+            <option value="TRACKON">TRACKON</option>
+        </select>
+
+        <input type="text" id="awNo" placeholder="AW No" oninput="updateOverlayText()"> <!-- New Input Field -->
+        <!-- Other form fields -->
+
+
+        <input type="text" id="shipperName" placeholder="Shipper Name" oninput="updateOverlayText()">
+
+        <input type="text" id="shipperAddress" placeholder="Shipper Address" oninput="updateOverlayText()">
+
+        <input type="tel" id="shipperTel" placeholder="Shipper Tel" oninput="updateOverlayText()">
+
+        <input type="text" id="receiverName" placeholder="Receiver Name" oninput="updateOverlayText()">
+
+        <input type="text" id="receiverAddress" placeholder="Receiver Address" oninput="updateOverlayText()">
+
+        <input type="tel" id="receiverTel" placeholder="Receiver Tel" oninput="updateOverlayText()">
+
+        <input type="number" id="chargeableWeight" placeholder="Chargeable Weight (kg)" oninput="updateOverlayText()">
+
+        <input type="number" id="totalAmount" placeholder="Total Amount (₹)" oninput="updateOverlayText()">
+
+        <input type="text" id="amountInWords" placeholder="Total Amount in Words" oninput="updateOverlayText()">
+
+        <input type="date" class="date" id="date" oninput="updateOverlayText()">
+
+        <!-- New AW No Input -->
+
+    </div>
+
+    <!-- Print button -->
+    <button class="print-button" onclick="window.print()">Print</button>
+
+    <div class="image-container">
+        <img src="Capture.png" alt="Image">
+
+        <!-- Company logo overlay -->
+        <img id="companyLogo" class="company-logo" src="" alt="Company Logo" />
+
+        <!-- Data containers -->
+
+        <div class="text-container company-name" id="companyNameText"></div>
+
+        <div class="text-container aw-no" id="awNoText"></div>
+        <div class="text-container shipper-name" id="shipperNameText">Shipper Name: </div>
+        <div class="text-container shipper-address" id="shipperAddressText">Shipper Address: </div>
+        <div class="text-container shipper-tel" id="shipperTelText">Shipper Tel: </div>
+        <div class="text-container receiver-name" id="receiverNameText">Receiver Name: </div>
+        <div class="text-container receiver-address" id="receiverAddressText">Receiver Address: </div>
+        <div class="text-container receiver-tel" id="receiverTelText">Receiver Tel: </div>
+        <div class="text-container chargeable-weight" id="chargeableWeightText"></div>
+        <div class="text-container amount amount-words" id="amountText"></div>
+        <div class="text-container amount-words " id="amountWordsText"></div>
+        <div class="text-container date" id="dateText"></div>
+    </div>
+
+
+    <script>
+        // Function to update the overlay text
+        function updateOverlayText() {
+            const companyName = document.getElementById("companyName").value.toUpperCase();
+            const shipperName = document.getElementById("shipperName").value.toUpperCase();
+            const shipperAddress = document.getElementById("shipperAddress").value.toUpperCase();
+            const shipperTel = document.getElementById("shipperTel").value.toUpperCase();
+            const receiverName = document.getElementById("receiverName").value.toUpperCase();
+            const receiverAddress = document.getElementById("receiverAddress").value.toUpperCase();
+            const receiverTel = document.getElementById("receiverTel").value.toUpperCase();
+            const chargeableWeight = document.getElementById("chargeableWeight").value.toUpperCase();
+            const totalAmount = document.getElementById("totalAmount").value.toUpperCase();
+            const amountInWords = document.getElementById("amountInWords").value.toUpperCase();
+            const date = document.getElementById("date").value.toUpperCase();
+            const awNo = document.getElementById("awNo").value.toUpperCase(); // Get the AW No value
+
+            document.getElementById("companyNameText").textContent = companyName;
+            document.getElementById("shipperNameText").textContent = "Shipper Name: " + shipperName;
+            document.getElementById("shipperAddressText").textContent = "Shipper Address: " + shipperAddress;
+            document.getElementById("shipperTelText").textContent = "Shipper Tel: " + shipperTel;
+            document.getElementById("receiverNameText").textContent = "Receiver Name: " + receiverName;
+            document.getElementById("receiverAddressText").textContent = "Receiver Address: " + receiverAddress;
+            document.getElementById("receiverTelText").textContent = "Receiver Tel: " + receiverTel;
+            document.getElementById("chargeableWeightText").textContent = chargeableWeight + "kg";
+            document.getElementById("amountText").textContent = "₹ " + totalAmount;
+            document.getElementById("amountWordsText").textContent = "₹ " + amountInWords;
+            document.getElementById("dateText").textContent = "Date: " + date;
+            document.getElementById("awNoText").textContent = awNo; // Display AW No
+        }
+
+        function updateCompanyLogo() {
+            const companyName = document.getElementById("companyName").value;
+
+            // Map company names to logo image paths
+            const companyLogos = {
+                "EKART": "ekart-logo-removebg-preview.png",
+                "ECOM": "Ecom-express-removebg-preview.png",
+                "MAHAVIR": "mahavir.jpg",
+                "TRACKON": "trackon_logo.png"
+            };
+
+            // Set the company logo image source
+            const companyLogo = document.getElementById("companyLogo");
+            companyLogo.src = companyLogos[companyName] || ""; // Clear the logo if no company is selected
+
+            // Dynamically adjust the size based on the company
+            if (companyName === "EKART") {
+                companyLogo.style.marginTop = "7px"
+                companyLogo.style.width = "170px";
+                companyLogo.style.height = "50px";
+            } else if (companyName === "ECOM") {
+                companyLogo.style.marginTop = "10px"
+                companyLogo.style.width = "220px";
+                companyLogo.style.height = "50px";
+
+
+            } else if (companyName === "MAHAVIR") {
+                companyLogo.style.marginTop = "10px";
+                companyLogo.style.marginLeft = "10px";
+                companyLogo.style.width = "170px";
+                companyLogo.style.height = "40px";
+            }
+            else if (companyName === "TRACKON") {
+                companyLogo.style.marginTop = "11px";
+                companyLogo.style.marginLeft = "10px";
+                companyLogo.style.width = "190px";
+                companyLogo.style.height = "40px";
+            }
+            else {
+                companyLogo.style.width = "0"; // Hide if no logo
+                companyLogo.style.height = "0";
+            }
+        }
+
+
+    </script>
+</body>
+
+</html>
