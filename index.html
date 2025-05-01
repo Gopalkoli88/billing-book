@@ -144,6 +144,15 @@
             left: 37.5%;
         }
 
+        .order-type {
+            margin-top: 2PX;
+            padding: 0;
+            font-size: 18px;
+            top: 27%;
+            left: 49%;
+            font-weight: bold;
+        }
+
         /* New styling for AW No */
         .aw-no {
             padding: 0px;
@@ -254,6 +263,18 @@
             /* Completely hides the element */
         }
 
+        .company-website {
+            position: absolute;
+            top: 90%;
+            left: 37%;
+            font-size: 16px;
+            font-weight: bold;
+            color: black;
+            z-index: 100;
+            padding: 3px;
+            background-color: white;
+        }
+
         /* Styling for the company logo */
     </style>
 </head>
@@ -271,6 +292,17 @@
             <option value="ECOM">ECOM</option>
             <option value="MAHAVIR">MAHAVIR</option>
             <option value="TRACKON">TRACKON</option>
+            <option value="DELHIVERY">DELHIVERY</option>
+            <option value="DTDC">DTDC</option>
+            <option value="MARUTI">MARUTI</option>
+            <option value="TIRUPATI">TIRUPATI</option>
+            <option value="POST">POST</option>
+            <option value="PROFESSIONAL">PROFESSIONAL</option>
+        </select>
+        <select name="ordertt" id="orderid" onchange="updateOverlayText()">
+            <option value="AW NO">AW NO :</option>
+            <option value="LR NO">LR NO :</option>
+            <option value="ORDER ID">ORDER ID :</option>
         </select>
 
         <input type="text" id="awNo" placeholder="AW No" oninput="updateOverlayText()"> <!-- New Input Field -->
@@ -309,11 +341,11 @@
 
         <!-- Company logo overlay -->
         <img id="companyLogo" class="company-logo" src="" alt="Company Logo" />
-
+        <div id="companyWebsiteText" class="company-website"></div>
         <!-- Data containers -->
 
         <div class="text-container company-name" id="companyNameText"></div>
-
+        <div class="text-container order-id" id="orderIdText"></div>
         <div class="text-container aw-no" id="awNoText"></div>
         <div class="text-container shipper-name" id="shipperNameText">Shipper Name: </div>
         <div class="text-container shipper-address" id="shipperAddressText">Shipper Address: </div>
@@ -325,13 +357,17 @@
         <div class="text-container amount amount-words" id="amountText"></div>
         <div class="text-container amount-words " id="amountWordsText"></div>
         <div class="text-container date" id="dateText"></div>
+        <div class="text-container order-type" id="orderTypeText"></div>
     </div>
 
 
     <script>
         // Function to update the overlay text
         function updateOverlayText() {
+
             const companyName = document.getElementById("companyName").value.toUpperCase();
+            const companyWebsiteText = document.getElementById("companyWebsiteText");
+
             const shipperName = document.getElementById("shipperName").value.toUpperCase();
             const shipperAddress = document.getElementById("shipperAddress").value.toUpperCase();
             const shipperTel = document.getElementById("shipperTel").value.toUpperCase();
@@ -343,7 +379,10 @@
             const amountInWords = document.getElementById("amountInWords").value.toUpperCase();
             const date = document.getElementById("date").value.toUpperCase();
             const awNo = document.getElementById("awNo").value.toUpperCase(); // Get the AW No value
-
+            const orderId = document.getElementById("orderid").value;
+            const orderType = document.getElementById("orderid").options[document.getElementById("orderid").selectedIndex].text;
+            document.getElementById("orderTypeText").textContent = orderType;
+            document.getElementById("orderIdText").textContent = orderId;
             document.getElementById("companyNameText").textContent = companyName;
             document.getElementById("shipperNameText").textContent = "Shipper Name: " + shipperName;
             document.getElementById("shipperAddressText").textContent = "Shipper Address: " + shipperAddress;
@@ -366,8 +405,15 @@
                 "EKART": "ekart-logo-removebg-preview.png",
                 "ECOM": "Ecom-express-removebg-preview.png",
                 "MAHAVIR": "mahavir.jpg",
-                "TRACKON": "trackon_logo.png"
+                "TRACKON": "trackon_logo.png",
+                "DELHIVERY": "delhivery-lo.png",
+                "DTDC": "dtdc.png",
+                "MARUTI": "maruti.png",
+                "TIRUPATI": "tirupati.png",
+                "POST": "post.png",
+                "PROFESSIONAL": "professionalcourier.png"
             };
+
 
             // Set the company logo image source
             const companyLogo = document.getElementById("companyLogo");
@@ -375,29 +421,80 @@
 
             // Dynamically adjust the size based on the company
             if (companyName === "EKART") {
+                companyWebsiteText.textContent = "Website: http://www.ekartlogistics.com/";
                 companyLogo.style.marginTop = "7px"
                 companyLogo.style.width = "170px";
                 companyLogo.style.height = "50px";
             } else if (companyName === "ECOM") {
+                companyWebsiteText.textContent = "Website: https://www.ecomexpress.in/tracking";
                 companyLogo.style.marginTop = "10px"
                 companyLogo.style.width = "220px";
                 companyLogo.style.height = "50px";
 
 
             } else if (companyName === "MAHAVIR") {
+                companyWebsiteText.textContent = "Website: http://shreemahavircourier.com/";
                 companyLogo.style.marginTop = "10px";
                 companyLogo.style.marginLeft = "10px";
                 companyLogo.style.width = "170px";
                 companyLogo.style.height = "40px";
             }
             else if (companyName === "TRACKON") {
+                companyWebsiteText.textContent = "Website:https://www.trackon.in/courier-tracking";
                 companyLogo.style.marginTop = "11px";
                 companyLogo.style.marginLeft = "10px";
                 companyLogo.style.width = "190px";
                 companyLogo.style.height = "40px";
             }
+            else if (companyName === "DELHIVERY") {
+                companyWebsiteText.textContent = "Website: https://www.delhivery.com/tracking";
+                companyLogo.style.marginTop = "11px";
+                companyLogo.style.marginLeft = "10px";
+                companyLogo.style.width = "200px";
+                companyLogo.style.height = "40px";
+            }
+            else if (companyName === "DTDC") {
+                companyWebsiteText.textContent = "Website: https://www.dtdc.in/trace.asp";
+                companyLogo.style.marginTop = "5px";
+                companyLogo.style.marginLeft = "10px";
+                companyLogo.style.width = "200px";
+                companyLogo.style.height = "50px";
+            } else if (companyName === "MARUTI") {
+                companyWebsiteText.textContent = "www.shreemaruti.com/track-your-shipment/";
+                companyLogo.style.marginTop = "4px";
+                companyLogo.style.marginLeft = "10px";
+                companyLogo.style.width = "170px";
+                companyLogo.style.height = "60px";
+            } else if (companyName === "TIRUPATI") {
+                companyWebsiteText.textContent = "Website: http://shreetirupaticourier.net/";
+                companyLogo.style.marginTop = "6px";
+                companyLogo.style.marginLeft = "10px";
+                companyLogo.style.width = "170px";
+                companyLogo.style.height = "50px";
+            } else if (companyName === "POST") {
+                companyWebsiteText.textContent = "Website: https://www.indiapost.gov.in/";
+                companyLogo.style.marginTop = "7px";
+                companyLogo.style.marginLeft = "10px";
+                companyLogo.style.width = "200px";
+                companyLogo.style.height = "50px";
+            } else if (companyName === "PROFESSIONAL") {
+                companyWebsiteText.textContent = "Website: https://www.tpcindia.com/";
+                companyLogo.style.marginTop = "7px";
+                companyLogo.style.marginLeft = "2px";
+                companyLogo.style.width = "240px";
+                companyLogo.style.height = "49px";
+            }
+
+
+
+
+
+
+
+
+
             else {
-                companyLogo.style.width = "0"; // Hide if no logo
+                companyLogo.style.width = "0";
                 companyLogo.style.height = "0";
             }
         }
