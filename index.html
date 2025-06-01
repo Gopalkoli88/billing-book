@@ -297,6 +297,7 @@
             <option value="MARUTI">MARUTI</option>
             <option value="TIRUPATI">TIRUPATI</option>
             <option value="POST">POST</option>
+            <option value="IWAY">IWAY</option>
             <option value="PROFESSIONAL">PROFESSIONAL</option>
         </select>
         <select name="ordertt" id="orderid" onchange="updateOverlayText()">
@@ -411,7 +412,8 @@
                 "MARUTI": "maruti.png",
                 "TIRUPATI": "tirupati.png",
                 "POST": "post.png",
-                "PROFESSIONAL": "professionalcourier.png"
+                "PROFESSIONAL": "professionalcourier.png",
+                "IWAY":"IWAY.png"
             };
 
 
@@ -483,6 +485,11 @@
                 companyLogo.style.marginLeft = "2px";
                 companyLogo.style.width = "240px";
                 companyLogo.style.height = "49px";
+            }else if (companyName === "IWAY") {
+                companyWebsiteText.textContent = "Website: https://iwayexx.in/#home";
+                companyLogo.style.marginTop = "4px"
+                companyLogo.style.width = "170px";
+                companyLogo.style.height = "52px";
             }
 
 
