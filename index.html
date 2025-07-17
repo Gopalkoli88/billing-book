@@ -299,6 +299,7 @@
             <option value="POST">POST</option>
             <option value="IWAY">IWAY</option>
             <option value="PROFESSIONAL">PROFESSIONAL</option>
+             <option value="FRANCHEXPRESS">FRANCHEXPRESS</option>
         </select>
         <select name="ordertt" id="orderid" onchange="updateOverlayText()">
             <option value="AW NO">AW NO :</option>
@@ -413,7 +414,8 @@
                 "TIRUPATI": "tirupati.png",
                 "POST": "post.png",
                 "PROFESSIONAL": "professionalcourier.png",
-                "IWAY":"IWAY.png"
+                "IWAY":"IWAY.png",
+                "FRANCHEXPRESS":"FRANCHEXPRESS.png"
             };
 
 
@@ -491,7 +493,12 @@
                 companyLogo.style.width = "170px";
                 companyLogo.style.height = "52px";
             }
-
+else if (companyName === "FRANCHEXPRESS") {
+                companyWebsiteText.textContent = "Website: https://franchexpress.com/";
+                companyLogo.style.marginTop = "9px"
+                companyLogo.style.width = "170px";
+                companyLogo.style.height = "48px";
+            }
 
 
 
